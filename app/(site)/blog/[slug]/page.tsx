@@ -11,6 +11,20 @@ import { formatPublishDate, getPost, getPostSlugs } from "@/sanity/lib/posts";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
+/**
+ * O Next entrega o parâmetro da rota como veio na URL, ou seja, percent-encoded:
+ * "pão-de-queijo" chega como "p%C3%A3o-de-queijo". Sem decodificar, a comparação
+ * com o slug guardado no Sanity nunca bate e a postagem vira 404.
+ */
+function decodeSlug(raw: string) {
+  try {
+    return decodeURIComponent(raw);
+  } catch {
+    // URL malformada ("%" solto): usa o valor cru e deixa a busca falhar.
+    return raw;
+  }
+}
+
 export async function generateStaticParams() {
   const slugs = await getPostSlugs();
   return slugs.map((slug) => ({ slug }));
@@ -20,7 +34,7 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getPost(slug);
+  const post = await getPost(decodeSlug(slug));
 
   if (!post) return { title: "Postagem não encontrada" };
 
@@ -83,7 +97,7 @@ const portableTextComponents: PortableTextComponents = {
 
 export default async function PostPage({ params }: PageProps) {
   const { slug } = await params;
-  const post = await getPost(slug);
+  const post = await getPost(decodeSlug(slug));
 
   if (!post) notFound();
 

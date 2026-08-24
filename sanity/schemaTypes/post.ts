@@ -1,6 +1,21 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 import { categories } from "../categories";
 
+/**
+ * Normaliza o slug: tira acentos, baixa a caixa e troca o resto por hífen.
+ * "Pão de Queijo" vira "pao-de-queijo". Acento no slug obrigaria o navegador a
+ * percent-encodar a URL, o que já causou 404 uma vez.
+ */
+function slugify(input: string) {
+  return input
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // marcas de acento
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 96);
+}
+
 export const post = defineType({
   name: "post",
   title: "Postagem",
@@ -25,9 +40,16 @@ export const post = defineType({
       name: "slug",
       title: "Slug (endereço da postagem)",
       type: "slug",
-      description: 'Clique em "Generate" para gerar a partir do título.',
-      options: { source: "title", maxLength: 96 },
-      validation: (rule) => rule.required(),
+      description:
+        'Clique em "Generate" para gerar a partir do título. Só letras ' +
+        "minúsculas, números e hífens — é isso que vai na URL.",
+      options: { source: "title", maxLength: 96, slugify: slugify },
+      validation: (rule) =>
+        rule.required().custom((value) => {
+          const current = value?.current ?? "";
+          if (/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(current)) return true;
+          return "Use só letras minúsculas, números e hífens (ex.: pao-de-queijo). Nada de espaços, acentos ou maiúsculas.";
+        }),
     }),
     defineField({
       name: "category",
