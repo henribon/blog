@@ -10,6 +10,7 @@ export const categories = [
   { title: "Receitas", value: "receitas" },
   { title: "Doces", value: "doces" },
   { title: "Bebidas", value: "bebidas" },
+  { title: "Restaurantes", value: "restaurantes" },
   { title: "Notas", value: "notas" },
 ];
 

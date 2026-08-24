@@ -1,5 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { categoryLabel } from "@/sanity/categories";
+import { urlForImage } from "@/sanity/lib/image";
+import { formatPublishDate, type PostSummary } from "@/sanity/lib/posts";
 
 export type PostListItem = {
   slug: string;
@@ -11,11 +14,32 @@ export type PostListItem = {
   imageAlt: string;
 };
 
-export default function PostList({ posts }: { posts: PostListItem[] }) {
+/** Converte o resultado do Sanity no formato que a listagem consome. */
+export function toPostListItems(posts: PostSummary[]): PostListItem[] {
+  return posts.map((post) => ({
+    slug: post.slug,
+    title: post.title,
+    description: post.description,
+    category: categoryLabel(post.category),
+    publishDate: formatPublishDate(post.publishedAt),
+    image: post.mainImage
+      ? urlForImage(post.mainImage).width(640).height(480).url()
+      : null,
+    imageAlt: post.title,
+  }));
+}
+
+export default function PostList({
+  posts,
+  emptyMessage = "Nenhuma postagem publicada ainda.",
+}: {
+  posts: PostListItem[];
+  emptyMessage?: string;
+}) {
   if (posts.length === 0) {
     return (
       <p className="py-16 text-center text-muted-foreground text-sm">
-        Nenhuma postagem publicada ainda.{" "}
+        {emptyMessage}{" "}
         <Link className="underline underline-offset-4" href="/studio">
           Escreva a primeira no painel
         </Link>
