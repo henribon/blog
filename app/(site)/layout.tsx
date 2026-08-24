@@ -45,14 +45,18 @@ export default function SiteRootLayout({
             <SiteNav links={navLinks} />
 
             <Link
-              className="text-center font-title text-4xl leading-none tracking-tight sm:text-5xl"
+              className="col-start-2 text-center font-title text-4xl leading-none tracking-tight sm:text-5xl"
               href="/blog"
             >
               bonbap
             </Link>
 
-            {/* Célula vazia à direita: mantém o título no centro real. */}
-            <span aria-hidden />
+            {/*
+             * Colunas fixadas na mão (col-start-*) porque o nav vira `fixed` em
+             * telas largas: ao sair do fluxo ele deixa de ocupar coluna, e sem
+             * posição explícita o título escorregaria para a primeira.
+             */}
+            <span aria-hidden className="col-start-3" />
           </header>
 
           <main className="flex-1 py-4">{children}</main>
