@@ -19,7 +19,11 @@ const valmist = localFont({
 
 const navLinks: NavLink[] = [
   { href: "/blog", label: "Home" },
-  { href: "/restaurantes", label: "Restaurantes favoritos" },
+  {
+    href: "https://bonbap.com.br/mipas/",
+    label: "Restaurantes favoritos",
+    external: true,
+  },
 ];
 
 export const metadata: Metadata = {
@@ -38,8 +42,7 @@ export default function SiteRootLayout({
       <body className="antialiased">
         <div className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 sm:px-8">
           <header className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 py-10">
-            {/* Célula vazia à esquerda: mantém o título no centro real. */}
-            <span aria-hidden />
+            <SiteNav links={navLinks} />
 
             <Link
               className="text-center font-title text-4xl leading-none tracking-tight sm:text-5xl"
@@ -48,7 +51,8 @@ export default function SiteRootLayout({
               bonbap
             </Link>
 
-            <SiteNav links={navLinks} />
+            {/* Célula vazia à direita: mantém o título no centro real. */}
+            <span aria-hidden />
           </header>
 
           <main className="flex-1 py-4">{children}</main>

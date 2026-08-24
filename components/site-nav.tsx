@@ -5,7 +5,31 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export type NavLink = { href: string; label: string };
+export type NavLink = {
+  href: string;
+  label: string;
+  /** Fora do blog (outro app do bonbap.com.br): sai do roteamento do Next. */
+  external?: boolean;
+};
+
+function NavItem({ link, className }: { link: NavLink; className: string }) {
+  if (link.external) {
+    return (
+      <a className={className} href={link.href}>
+        {link.label}
+      </a>
+    );
+  }
+
+  return (
+    <Link className={className} href={link.href}>
+      {link.label}
+    </Link>
+  );
+}
+
+const itemClass =
+  "text-muted-foreground text-xs uppercase tracking-wider underline-offset-4 transition-colors hover:text-foreground hover:underline";
 
 export default function SiteNav({ links }: { links: NavLink[] }) {
   const [open, setOpen] = useState(false);
@@ -35,16 +59,10 @@ export default function SiteNav({ links }: { links: NavLink[] }) {
 
   return (
     <>
-      {/* Desktop: os links direto no cabeçalho, à direita. */}
-      <nav className="hidden justify-end gap-5 sm:flex">
+      {/* Desktop: coluna curta encostada no canto superior esquerdo. */}
+      <nav className="hidden flex-col items-start gap-1.5 self-start sm:flex">
         {links.map((link) => (
-          <Link
-            className="text-muted-foreground text-xs uppercase tracking-wider underline-offset-4 transition-colors hover:text-foreground hover:underline"
-            href={link.href}
-            key={link.href}
-          >
-            {link.label}
-          </Link>
+          <NavItem className={itemClass} key={link.href} link={link} />
         ))}
       </nav>
 
@@ -52,7 +70,7 @@ export default function SiteNav({ links }: { links: NavLink[] }) {
       <button
         aria-expanded={open}
         aria-label="Abrir menu"
-        className="-mr-2 flex justify-self-end p-2 text-foreground sm:hidden"
+        className="-ml-2 flex justify-self-start p-2 text-foreground sm:hidden"
         onClick={() => setOpen(true)}
         type="button"
       >
@@ -61,10 +79,10 @@ export default function SiteNav({ links }: { links: NavLink[] }) {
 
       {open && (
         <div className="fixed inset-0 z-50 flex flex-col bg-background sm:hidden">
-          <div className="flex justify-end px-5 py-10">
+          <div className="flex justify-start px-5 py-10">
             <button
               aria-label="Fechar menu"
-              className="-mr-2 p-2 text-foreground"
+              className="-ml-2 p-2 text-foreground"
               onClick={() => setOpen(false)}
               type="button"
             >
@@ -74,13 +92,11 @@ export default function SiteNav({ links }: { links: NavLink[] }) {
 
           <nav className="flex flex-1 flex-col items-center justify-center gap-8">
             {links.map((link) => (
-              <Link
+              <NavItem
                 className="text-lg uppercase tracking-wider underline-offset-4 hover:underline"
-                href={link.href}
                 key={link.href}
-              >
-                {link.label}
-              </Link>
+                link={link}
+              />
             ))}
           </nav>
         </div>

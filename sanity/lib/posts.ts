@@ -34,9 +34,6 @@ const summaryFields = `
 const postsQuery = `*[_type == "post" && defined(slug.current)]
   | order(publishedAt desc){${summaryFields}}`;
 
-const postsByCategoryQuery = `*[_type == "post" && defined(slug.current)
-  && category == $category] | order(publishedAt desc){${summaryFields}}`;
-
 const postQuery = `*[_type == "post" && slug.current == $slug][0]{
   ${summaryFields},
   body,
@@ -53,17 +50,6 @@ export async function getPosts(): Promise<PostSummary[]> {
   return client.fetch<PostSummary[]>(
     postsQuery,
     {},
-    { next: { revalidate: 60 } },
-  );
-}
-
-export async function getPostsByCategory(
-  category: string,
-): Promise<PostSummary[]> {
-  if (!isSanityConfigured) return [];
-  return client.fetch<PostSummary[]>(
-    postsByCategoryQuery,
-    { category },
     { next: { revalidate: 60 } },
   );
 }
