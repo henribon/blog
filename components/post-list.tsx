@@ -74,7 +74,7 @@ export default function PostList({
               <p className="mb-2 text-muted-foreground text-xs uppercase tracking-wider">
                 {post.category} · {post.publishDate}
               </p>
-              <h2 className="mb-2 font-normal text-xl tracking-tight underline-offset-4 group-hover:underline sm:text-2xl">
+              <h2 className="mb-2 text-xl tracking-tight underline-offset-4 group-hover:underline sm:text-2xl">
                 {post.title}
               </h2>
               <p className="text-muted-foreground text-sm leading-relaxed">
