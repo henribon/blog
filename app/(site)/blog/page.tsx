@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import PostFilter from "@/components/post-filter";
-import { toPostListItems } from "@/components/post-list";
+import { toPostListItems } from "@/sanity/lib/post-list-items";
 import { getPosts } from "@/sanity/lib/posts";
 
 export const metadata: Metadata = {
