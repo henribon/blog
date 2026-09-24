@@ -1,20 +1,12 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Inter_Tight } from "next/font/google";
 import Link from "next/link";
 import SiteNav, { type NavLink } from "@/components/site-nav";
 import "../globals.css";
 
-/**
- * Fonte só do título do site. É uma versão demo com 57 caracteres: tem A–Z e
- * a–z, mas NÃO tem números nem acentos. Por isso fica restrita a "bonbap" —
- * usar em texto em português faria o navegador trocar de fonte no meio da
- * palavra, em cada "ã" ou "ç".
- */
-const valmist = localFont({
-  src: "../fonts/TBJValmistDemo-Bold.ttf",
-  display: "swap",
-  variable: "--font-valmist",
-  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  variable: "--font-inter-tight",
 });
 
 const navLinks: NavLink[] = [
@@ -38,14 +30,14 @@ export default function SiteRootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html className={valmist.variable} lang="pt-BR">
-      <body className="antialiased">
+    <html className={interTight.variable} lang="pt-BR">
+      <body className="font-medium antialiased">
         <div className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 sm:px-8">
           <header className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 py-10">
             <SiteNav links={navLinks} />
 
             <Link
-              className="col-start-2 text-center font-title text-4xl leading-none tracking-tight sm:text-5xl"
+              className="col-start-2 text-center font-extrabold text-4xl leading-none tracking-tight sm:text-5xl"
               href="/blog"
             >
               bonbap

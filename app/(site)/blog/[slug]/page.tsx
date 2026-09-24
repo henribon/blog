@@ -56,14 +56,10 @@ const portableTextComponents: PortableTextComponents = {
   },
   block: {
     h2: ({ children }) => (
-      <h2 className="mt-10 mb-4 font-normal text-2xl tracking-tight">
-        {children}
-      </h2>
+      <h2 className="mt-10 mb-4 text-2xl tracking-tight">{children}</h2>
     ),
     h3: ({ children }) => (
-      <h3 className="mt-8 mb-3 font-normal text-xl tracking-tight">
-        {children}
-      </h3>
+      <h3 className="mt-8 mb-3 text-xl tracking-tight">{children}</h3>
     ),
     blockquote: ({ children }) => (
       <blockquote className="my-6 border-border border-l-2 pl-4 text-muted-foreground italic">
@@ -118,9 +114,7 @@ export default async function PostPage({ params }: PageProps) {
       <p className="mb-3 text-muted-foreground text-xs uppercase tracking-wider">
         {categoryLabel(post.category)} · {formatPublishDate(post.publishedAt)}
       </p>
-      <h1 className="mb-6 font-normal text-3xl tracking-tight sm:text-4xl">
-        {post.title}
-      </h1>
+      <h1 className="mb-6 text-3xl tracking-tight sm:text-4xl">{post.title}</h1>
 
       {post.mainImage && (
         <Image
