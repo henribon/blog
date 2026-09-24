@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import PostMeta from "@/components/post-meta";
 
 type PostListImage = {
   src: string;
@@ -25,40 +26,54 @@ type CardLayout = {
 
 const cardLayouts: CardLayout[] = [
   {
-    placement: "col-span-12 col-start-1 sm:col-span-7 sm:col-start-1",
+    placement: "col-span-12 col-start-1 lg:col-span-7 lg:col-start-1",
     frame: "aspect-4/3",
-    title: "text-2xl sm:text-3xl",
-    sizes: "(min-width: 640px) 400px, 100vw",
+    title: "text-2xl lg:text-3xl",
+    sizes: "(min-width: 1024px) 690px, 100vw",
   },
   {
-    placement: "col-span-8 col-start-5 sm:col-span-4 sm:col-start-9 sm:mt-32",
-    frame: "aspect-3/4",
-    title: "text-xl",
-    sizes: "(min-width: 640px) 220px, 60vw",
-  },
-  {
-    placement: "col-span-10 col-start-1 sm:col-span-5 sm:col-start-2 sm:mt-8",
+    placement:
+      "col-span-8 col-start-5 lg:col-span-4 lg:col-start-9 lg:mt-32 lg:rotate-[1.5deg]",
     frame: "aspect-square",
-    title: "text-xl sm:text-2xl",
-    sizes: "(min-width: 640px) 280px, 80vw",
-  },
-  {
-    placement: "col-span-10 col-start-3 sm:col-span-5 sm:col-start-8 sm:mt-40",
-    frame: "aspect-4/5",
-    title: "text-xl sm:text-2xl",
-    sizes: "(min-width: 640px) 280px, 80vw",
-  },
-  {
-    placement: "col-span-9 col-start-1 sm:col-span-4 sm:col-start-1 sm:mt-4",
-    frame: "aspect-4/5",
     title: "text-xl",
-    sizes: "(min-width: 640px) 220px, 70vw",
+    sizes: "(min-width: 1024px) 384px, 65vw",
   },
   {
-    placement: "col-span-11 col-start-2 sm:col-span-6 sm:col-start-6 sm:mt-24",
+    placement: "col-span-10 col-start-1 lg:col-span-4 lg:col-start-2 lg:mt-10",
+    frame: "aspect-4/5",
+    title: "text-2xl lg:text-3xl",
+    sizes: "(min-width: 1024px) 384px, 85vw",
+  },
+  {
+    placement: "col-span-10 col-start-3 lg:col-span-4 lg:col-start-7 lg:mt-16",
+    frame: "aspect-3/4",
+    title: "text-xl lg:text-2xl",
+    sizes: "(min-width: 1024px) 384px, 85vw",
+  },
+  {
+    placement:
+      "col-span-9 col-start-1 lg:col-span-2 lg:col-start-11 lg:mt-40 lg:-rotate-2",
+    frame: "aspect-square",
+    title: "text-xl lg:text-base",
+    sizes: "(min-width: 1024px) 180px, 75vw",
+  },
+  {
+    placement: "col-span-11 col-start-2 lg:col-span-5 lg:col-start-1 lg:mt-6",
     frame: "aspect-3/2",
-    title: "text-2xl sm:text-3xl",
-    sizes: "(min-width: 640px) 340px, 85vw",
+    title: "text-xl lg:text-2xl",
+    sizes: "(min-width: 1024px) 486px, 90vw",
+  },
+  {
+    placement: "col-span-8 col-start-5 lg:col-span-4 lg:col-start-8 lg:mt-24",
+    frame: "aspect-4/5",
+    title: "text-xl lg:text-2xl",
+    sizes: "(min-width: 1024px) 384px, 65vw",
+  },
+  {
+    placement: "col-span-10 col-start-1 lg:col-span-4 lg:col-start-2 lg:mt-8",
+    frame: "aspect-4/3",
+    title: "text-xl lg:text-2xl",
+    sizes: "(min-width: 1024px) 384px, 85vw",
   },
 ];
 
@@ -93,9 +108,11 @@ function PostCard({
           />
         </div>
       )}
-      <p className="mb-2 text-muted-foreground text-xs uppercase tracking-wider">
-        {post.category} · {post.publishDate}
-      </p>
+      <PostMeta
+        category={post.category}
+        className="mb-2"
+        date={post.publishDate}
+      />
       <h2
         className={`mb-2 text-balance tracking-tight underline-offset-4 group-hover:underline ${layout.title}`}
       >
@@ -128,7 +145,7 @@ export default function PostList({
   }
 
   return (
-    <ul className="grid grid-cols-12 items-start gap-x-4 gap-y-16 py-6 sm:gap-x-6 sm:gap-y-10">
+    <ul className="grid grid-cols-12 items-start gap-x-4 gap-y-16 py-6 lg:gap-x-6 lg:gap-y-12">
       {posts.map((post, index) => {
         const layout = layoutAt(index);
 

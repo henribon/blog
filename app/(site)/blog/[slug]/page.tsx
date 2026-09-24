@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Image as SanityImage } from "sanity";
-import { categoryLabel } from "@/sanity/categories";
+import PostMeta from "@/components/post-meta";
 import { urlForImage } from "@/sanity/lib/image";
 import { formatPublishDate, getPost, getPostSlugs } from "@/sanity/lib/posts";
 
@@ -102,7 +102,7 @@ export default async function PostPage({ params }: PageProps) {
     post.tempoPreparo || post.rendimento || ingredientes.length > 0;
 
   return (
-    <article className="py-4">
+    <article className="mx-auto w-full max-w-3xl py-4">
       <Link
         className="mb-8 inline-flex items-center gap-2 text-muted-foreground text-xs underline-offset-4 hover:underline"
         href="/blog"
@@ -111,9 +111,11 @@ export default async function PostPage({ params }: PageProps) {
         Voltar para as postagens
       </Link>
 
-      <p className="mb-3 text-muted-foreground text-xs uppercase tracking-wider">
-        {categoryLabel(post.category)} · {formatPublishDate(post.publishedAt)}
-      </p>
+      <PostMeta
+        category={post.category}
+        className="mb-3"
+        date={formatPublishDate(post.publishedAt)}
+      />
       <h1 className="mb-6 text-3xl tracking-tight sm:text-4xl">{post.title}</h1>
 
       {post.mainImage && (

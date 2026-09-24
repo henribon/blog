@@ -59,13 +59,7 @@ export default function SiteNav({ links }: { links: NavLink[] }) {
 
   return (
     <>
-      {/*
-       * Telas largas (xl+): o menu sai do fluxo e vai para a margem externa,
-       * à esquerda do conteúdo. Só a partir de 1280px, porque abaixo disso a
-       * margem é estreita demais e o menu passaria por cima do texto.
-       * Entre sm e xl ele fica na primeira coluna do cabeçalho, como antes.
-       */}
-      <nav className="col-start-1 hidden flex-col items-start gap-1.5 self-start sm:flex xl:fixed xl:top-10 xl:left-10">
+      <nav className="col-start-1 hidden flex-col items-start gap-1.5 self-start sm:flex xl:absolute xl:top-10 xl:left-10">
         {links.map((link) => (
           <NavItem className={itemClass} key={link.href} link={link} />
         ))}

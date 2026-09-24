@@ -18,6 +18,10 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
+  --categoria-cozinha: oklch(0.553 0.195 38.402);
+  --categoria-musica: oklch(0.457 0.24 277.023);
+  --categoria-restaurantes: oklch(0.527 0.154 150.069);
+  --categoria-notas: oklch(0.439 0 0);
 }
 
 /* Tema escuro segue a preferencia do sistema. */
@@ -38,11 +42,16 @@
     --border: oklch(1 0 0 / 10%);
     --input: oklch(1 0 0 / 15%);
     --ring: oklch(0.556 0 0);
+    --categoria-cozinha: oklch(0.75 0.183 55.934);
+    --categoria-musica: oklch(0.785 0.115 274.713);
+    --categoria-restaurantes: oklch(0.792 0.209 151.711);
+    --categoria-notas: oklch(0.708 0 0);
   }
 }
 
 @theme inline {
   --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-categoria: var(--font-space-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

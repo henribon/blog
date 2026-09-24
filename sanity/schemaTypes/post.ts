@@ -56,7 +56,7 @@ export const post = defineType({
       title: "Categoria",
       type: "string",
       options: { list: categories, layout: "radio" },
-      initialValue: "receitas",
+      initialValue: "cozinha",
       validation: (rule) => rule.required(),
     }),
     defineField({

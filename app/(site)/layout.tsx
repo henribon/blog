@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter_Tight } from "next/font/google";
+import { Inter_Tight, Space_Mono } from "next/font/google";
 import Link from "next/link";
 import SiteNav, { type NavLink } from "@/components/site-nav";
 import "../globals.css";
@@ -7,6 +7,12 @@ import "../globals.css";
 const interTight = Inter_Tight({
   subsets: ["latin"],
   variable: "--font-inter-tight",
+});
+
+const spaceMono = Space_Mono({
+  subsets: ["latin"],
+  weight: "700",
+  variable: "--font-space-mono",
 });
 
 const navLinks: NavLink[] = [
@@ -30,9 +36,12 @@ export default function SiteRootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html className={interTight.variable} lang="pt-BR">
+    <html
+      className={`${interTight.variable} ${spaceMono.variable}`}
+      lang="pt-BR"
+    >
       <body className="font-medium antialiased">
-        <div className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 sm:px-8">
+        <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-5 sm:px-8 lg:px-10">
           <header className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 py-10">
             <SiteNav links={navLinks} />
 
@@ -43,11 +52,6 @@ export default function SiteRootLayout({
               bonbap
             </Link>
 
-            {/*
-             * Colunas fixadas na mão (col-start-*) porque o nav vira `fixed` em
-             * telas largas: ao sair do fluxo ele deixa de ocupar coluna, e sem
-             * posição explícita o título escorregaria para a primeira.
-             */}
             <span aria-hidden className="col-start-3" />
           </header>
 
