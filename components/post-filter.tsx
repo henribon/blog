@@ -2,53 +2,80 @@
 
 import { useMemo, useState } from "react";
 import PostList, { type PostListItem } from "@/components/post-list";
-import { categories } from "@/sanity/categories";
+import { categories, categoryColor, categoryLabel } from "@/sanity/categories";
 
-const TODAS = "Todas";
+function FilterButton({
+  label,
+  color,
+  active,
+  onClick,
+}: {
+  label: string;
+  color?: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  const state = active
+    ? "text-foreground underline"
+    : "text-muted-foreground hover:text-foreground hover:underline";
+
+  return (
+    <button
+      aria-pressed={active}
+      className={`flex shrink-0 items-center gap-2 font-bold font-categoria text-sm uppercase tracking-[0.04em] underline-offset-4 transition-colors ${state}`}
+      onClick={onClick}
+      type="button"
+    >
+      {color && (
+        <span
+          aria-hidden
+          className="size-2"
+          style={{ backgroundColor: color }}
+        />
+      )}
+      {label}
+    </button>
+  );
+}
 
 export default function PostFilter({ posts }: { posts: PostListItem[] }) {
-  const [ativa, setAtiva] = useState(TODAS);
+  const [ativa, setAtiva] = useState<string | null>(null);
 
-  // Só entram no filtro as categorias que têm postagem — a ordem é a da lista
-  // canônica, não a de publicação, para os botões não dançarem a cada post novo.
-  const abas = useMemo(() => {
-    const usadas = new Set(posts.map((post) => post.category));
-    return [
-      TODAS,
-      ...categories.map((c) => c.title).filter((title) => usadas.has(title)),
-    ];
+  const usadas = useMemo(() => {
+    const valores = new Set(posts.map((post) => post.category));
+    return categories.filter((category) => valores.has(category.value));
   }, [posts]);
 
-  const visiveis =
-    ativa === TODAS ? posts : posts.filter((post) => post.category === ativa);
+  const visiveis = ativa
+    ? posts.filter((post) => post.category === ativa)
+    : posts;
 
   return (
     <>
-      {abas.length > 2 && (
-        <div className="mb-10 flex flex-wrap gap-x-5 gap-y-2">
-          {abas.map((aba) => (
-            <button
-              aria-pressed={aba === ativa}
-              className={
-                aba === ativa
-                  ? "text-foreground text-xs uppercase tracking-wider underline underline-offset-4"
-                  : "text-muted-foreground text-xs uppercase tracking-wider underline-offset-4 transition-colors hover:text-foreground hover:underline"
-              }
-              key={aba}
-              onClick={() => setAtiva(aba)}
-              type="button"
-            >
-              {aba}
-            </button>
+      {usadas.length > 1 && (
+        <div className="mb-12 flex gap-x-6 overflow-x-auto [scrollbar-width:none] lg:mb-16 lg:justify-center lg:gap-x-8">
+          <FilterButton
+            active={ativa === null}
+            label="Todas"
+            onClick={() => setAtiva(null)}
+          />
+          {usadas.map((category) => (
+            <FilterButton
+              active={ativa === category.value}
+              color={categoryColor(category.value)}
+              key={category.value}
+              label={category.title}
+              onClick={() => setAtiva(category.value)}
+            />
           ))}
         </div>
       )}
 
       <PostList
         emptyMessage={
-          ativa === TODAS
-            ? "Nenhuma postagem publicada ainda."
-            : `Nenhuma postagem em ${ativa}.`
+          ativa
+            ? `Nenhuma postagem em ${categoryLabel(ativa)}.`
+            : "Nenhuma postagem publicada ainda."
         }
         posts={visiveis}
       />
